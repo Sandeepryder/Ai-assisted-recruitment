@@ -1,0 +1,84 @@
+// This is your Prisma schema file
+// Learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+datasource db {
+  provider = "postgresql" // You can change this to "mysql" or "sqlite" if needed
+  url      = env("DATABASE_URL")
+}
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+model Job {
+  id             Int         @id @default(autoincrement())
+  title          String
+  description    String
+  createdAt      DateTime    @default(now())
+  candidates     Candidate[]
+  scoringKeywords Json?
+}
+
+model Candidate {
+  id            Int          @id @default(autoincrement())
+  firstName     String
+  lastName      String
+  email         String       @unique
+  phone         String?
+  jobId         Int
+  job           Job          @relation(fields: [jobId], references: [id])
+  resume        ResumeFile?
+  parsedResume  ResumeParsed?
+  score         Float?
+  scoreBreakdown Json?
+  status        String       @default("applied")
+  createdAt     DateTime     @default(now())
+  interviews    Interview[]
+  feedbacks     Feedback[]
+}
+
+model ResumeFile {
+  id          Int       @id @default(autoincrement())
+  candidate   Candidate @relation(fields: [candidateId], references: [id])
+  candidateId Int       @unique  // Added @unique for one-to-one relation
+  filename    String
+  path        String
+  mimetype    String
+  size        Int
+  uploadedAt  DateTime  @default(now())
+}
+
+model ResumeParsed {
+  id          Int       @id @default(autoincrement())
+  candidate   Candidate @relation(fields: [candidateId], references: [id])
+  candidateId Int       @unique  // Added @unique for one-to-one relation
+  text        String    @db.Text  // Using @db.Text for PostgreSQL
+  keywords    Json?
+}
+
+model Interview {
+  id          Int       @id @default(autoincrement())
+  candidate   Candidate @relation(fields: [candidateId], references: [id])
+  candidateId Int
+  scheduledAt DateTime
+  interviewer String
+  status      String     @default("scheduled")
+  createdAt   DateTime   @default(now())
+}
+
+model Feedback {
+  id          Int       @id @default(autoincrement())
+  candidate   Candidate @relation(fields: [candidateId], references: [id])
+  candidateId Int
+  interviewer String
+  rating      Int
+  notes       String?
+  createdAt   DateTime   @default(now())
+}
+
+model ScoringConfig {
+  id        Int       @id @default(autoincrement())
+  name      String
+  config    Json
+  updatedAt DateTime  @updatedAt
+}
