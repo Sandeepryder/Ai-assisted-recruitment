@@ -13,6 +13,8 @@ import { FeedbackController } from "./controllers/feedback.controller";
 import { FeedbackService } from "./services/feedback.service";
 import { ScoringConfigController } from "./controllers/scoring-config.controller";
 import { ScoringConfigService } from "./services/scoring-config.service";
+import { MetricsController } from "./controllers/metrics.controller";
+import { MetricsService } from "./services/metrics.service";
 @Module({
     imports: [],
     controllers: [
@@ -21,8 +23,9 @@ import { ScoringConfigService } from "./services/scoring-config.service";
         JobController,
         InterviewController,
         FeedbackController,
-        ScoringConfigController
+        ScoringConfigController,
+        MetricsController
     ],
-    providers: [ResumeService,ScoringService,PrismaService,CandidateService,JobService, InterviewService , FeedbackService,ScoringConfigService],
+    providers: [ResumeService,ScoringService,PrismaService,CandidateService,JobService, InterviewService , FeedbackService,ScoringConfigService, MetricsService],
 })
 export class RecruitmentModule {}

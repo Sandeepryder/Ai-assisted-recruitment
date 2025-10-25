@@ -22,6 +22,8 @@ const feedback_controller_1 = require("./controllers/feedback.controller");
 const feedback_service_1 = require("./services/feedback.service");
 const scoring_config_controller_1 = require("./controllers/scoring-config.controller");
 const scoring_config_service_1 = require("./services/scoring-config.service");
+const metrics_controller_1 = require("./controllers/metrics.controller");
+const metrics_service_1 = require("./services/metrics.service");
 let RecruitmentModule = class RecruitmentModule {
 };
 exports.RecruitmentModule = RecruitmentModule;
@@ -34,9 +36,10 @@ exports.RecruitmentModule = RecruitmentModule = __decorate([
             job_controllers_1.JobController,
             interview_controller_1.InterviewController,
             feedback_controller_1.FeedbackController,
-            scoring_config_controller_1.ScoringConfigController
+            scoring_config_controller_1.ScoringConfigController,
+            metrics_controller_1.MetricsController
         ],
-        providers: [resume_service_1.ResumeService, scoring_service_1.ScoringService, prisma_services_1.PrismaService, candidate_service_1.CandidateService, job_service_1.JobService, interview_service_1.InterviewService, feedback_service_1.FeedbackService, scoring_config_service_1.ScoringConfigService],
+        providers: [resume_service_1.ResumeService, scoring_service_1.ScoringService, prisma_services_1.PrismaService, candidate_service_1.CandidateService, job_service_1.JobService, interview_service_1.InterviewService, feedback_service_1.FeedbackService, scoring_config_service_1.ScoringConfigService, metrics_service_1.MetricsService],
     })
 ], RecruitmentModule);
 //# sourceMappingURL=recruitment.module.js.map
