@@ -1,9 +1,15 @@
-import { Controller, Post,Get , Put, Delete, Param, Body } from "@nestjs/common";
+import { Controller, Post,Get , Put, Delete, Param, Body, UseGuards } from "@nestjs/common";
 import { CandidateService } from "../services/candidate.service";
+import { Roles } from "src/auth/decorators/roles.decorator";
+import { JwtAuthGuard } from "src/auth/guards/jwt-auth.guard";
+import { RolesGuard } from "src/auth/guards/roles.guard";
 
 @Controller('candidate')
 export class CandidateController {
     constructor(private readonly candidateService: CandidateService) {}
+
+    @Roles('HR')
+    @UseGuards(JwtAuthGuard, RolesGuard)
     @Post('create')
     async createCandidate(
     // @Body() body: { firstName: string; lastName: string; email: string; phone?: string; jobId: number }
@@ -23,6 +29,8 @@ export class CandidateController {
     return this.candidateService.getCandidate(Number(id));
   }
 
+  @Roles('HR')
+  @UseGuards(JwtAuthGuard, RolesGuard)
   @Put(':id')
   async updateCandidate(
     @Param('id') id: string,

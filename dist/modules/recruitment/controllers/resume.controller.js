@@ -17,6 +17,9 @@ const common_1 = require("@nestjs/common");
 const platform_express_1 = require("@nestjs/platform-express");
 const resume_service_1 = require("../services/resume.service");
 const multer_1 = require("multer");
+const roles_decorator_1 = require("../../../auth/decorators/roles.decorator");
+const jwt_auth_guard_1 = require("../../../auth/guards/jwt-auth.guard");
+const roles_guard_1 = require("../../../auth/guards/roles.guard");
 let ResumeController = class ResumeController {
     constructor(resumeService) {
         this.resumeService = resumeService;
@@ -34,6 +37,8 @@ let ResumeController = class ResumeController {
 };
 exports.ResumeController = ResumeController;
 __decorate([
+    (0, roles_decorator_1.Roles)('HR'),
+    (0, common_1.UseGuards)(jwt_auth_guard_1.JwtAuthGuard, roles_guard_1.RolesGuard),
     (0, common_1.Post)('uploads'),
     (0, common_1.UseInterceptors)((0, platform_express_1.FileInterceptor)('file', {
         storage: (0, multer_1.memoryStorage)(),

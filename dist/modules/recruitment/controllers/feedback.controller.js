@@ -15,6 +15,9 @@ Object.defineProperty(exports, "__esModule", { value: true });
 exports.FeedbackController = void 0;
 const common_1 = require("@nestjs/common");
 const prisma_services_1 = require("../services/prisma.services");
+const roles_decorator_1 = require("../../../auth/decorators/roles.decorator");
+const jwt_auth_guard_1 = require("../../../auth/guards/jwt-auth.guard");
+const roles_guard_1 = require("../../../auth/guards/roles.guard");
 let FeedbackController = class FeedbackController {
     constructor(prismaservice) {
         this.prismaservice = prismaservice;
@@ -58,6 +61,8 @@ let FeedbackController = class FeedbackController {
 };
 exports.FeedbackController = FeedbackController;
 __decorate([
+    (0, roles_decorator_1.Roles)('HR'),
+    (0, common_1.UseGuards)(jwt_auth_guard_1.JwtAuthGuard, roles_guard_1.RolesGuard),
     (0, common_1.Post)('create'),
     __param(0, (0, common_1.Body)()),
     __metadata("design:type", Function),
@@ -78,6 +83,8 @@ __decorate([
     __metadata("design:returntype", Promise)
 ], FeedbackController.prototype, "getFeedback", null);
 __decorate([
+    (0, roles_decorator_1.Roles)('HR'),
+    (0, common_1.UseGuards)(jwt_auth_guard_1.JwtAuthGuard, roles_guard_1.RolesGuard),
     (0, common_1.Put)(':id'),
     __param(0, (0, common_1.Param)('id')),
     __param(1, (0, common_1.Body)()),

@@ -1,12 +1,17 @@
-import { Controller, Post, UseInterceptors, UploadedFile, Body, BadRequestException } from '@nestjs/common';
+import { Controller, Post, UseInterceptors, UploadedFile, Body, BadRequestException, UseGuards } from '@nestjs/common';
 import { FileInterceptor } from '@nestjs/platform-express';
 import { ResumeService } from '../services/resume.service';
 import { memoryStorage } from 'multer';
+import { Roles } from 'src/auth/decorators/roles.decorator';
+import { JwtAuthGuard } from 'src/auth/guards/jwt-auth.guard';
+import { RolesGuard } from 'src/auth/guards/roles.guard';
 
 @Controller('resume')
 export class ResumeController {
   constructor(private readonly resumeService: ResumeService) {}
 
+  @Roles('HR')
+  @UseGuards(JwtAuthGuard, RolesGuard)
   @Post('uploads')
   @UseInterceptors(
     FileInterceptor('file', {

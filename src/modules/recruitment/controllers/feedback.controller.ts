@@ -1,10 +1,16 @@
-import { Controller, Post, Get , Put , Delete , Param , Body } from "@nestjs/common";
+import { Controller, Post, Get , Put , Delete , Param , Body, UseGuards } from "@nestjs/common";
 import { PrismaService } from "../services/prisma.services";
+import { Roles } from "src/auth/decorators/roles.decorator";
+import { JwtAuthGuard } from "src/auth/guards/jwt-auth.guard";
+import { RolesGuard } from "src/auth/guards/roles.guard";
 
 
 @Controller('feedback')
 export class FeedbackController{
     constructor(private readonly prismaservice : PrismaService){}
+
+    @Roles('HR')
+    @UseGuards(JwtAuthGuard, RolesGuard)
     @Post('create')
     async createFeedback(
         @Body() body :{candidateId: number; interviewer: string; rating: number; notes?: string}
@@ -37,6 +43,8 @@ export class FeedbackController{
         return feedback
     }
 
+    @Roles('HR')
+    @UseGuards(JwtAuthGuard, RolesGuard)
     @Put(':id')
     async updateFeedback(
         @Param('id') id :string,

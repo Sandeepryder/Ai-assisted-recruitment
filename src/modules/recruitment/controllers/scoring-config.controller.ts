@@ -1,11 +1,16 @@
-import { Controller , Get , Post , Put, Delete, Body , Param } from "@nestjs/common";
+import { Controller , Get , Post , Put, Delete, Body , Param, UseGuards } from "@nestjs/common";
 import { ScoringConfigService } from "../services/scoring-config.service";
+import { Roles } from "src/auth/decorators/roles.decorator";
+import { JwtAuthGuard } from "src/auth/guards/jwt-auth.guard";
+import { RolesGuard } from "src/auth/guards/roles.guard";
 // import { PrismaService } from "../services/prisma.services";
 
 @Controller('scoring-config')
 export class ScoringConfigController {
   constructor(private readonly scoringConfigService : ScoringConfigService){}
 
+    @Roles('HR')
+    @UseGuards(JwtAuthGuard, RolesGuard)
     @Post('create')
     async createConfig(
     @Body() body: { name: string; config: any }){
@@ -22,6 +27,8 @@ export class ScoringConfigController {
         return this.scoringConfigService.getConfig(Number(id));
     }
 
+    @Roles('HR')
+    @UseGuards(JwtAuthGuard, RolesGuard)
     @Put(":id")
     async updateScoringConfig( @Param('id') id: string, @Body() body :{name ?: string , config ?: string }){
         return this.scoringConfigService.updateConfig(Number(id), body)

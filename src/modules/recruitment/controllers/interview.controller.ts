@@ -1,10 +1,16 @@
-import { Controller,Post,Get , Put,Delete ,Param,Body } from "@nestjs/common";
+import { Controller,Post,Get , Put,Delete ,Param,Body, UseGuards } from "@nestjs/common";
 import { PrismaService } from "../services/prisma.services";
+import { Roles } from "src/auth/decorators/roles.decorator";
+import { JwtAuthGuard } from "src/auth/guards/jwt-auth.guard";
+import { RolesGuard } from "src/auth/guards/roles.guard";
 
 
 @Controller('interview')
 export class InterviewController {
     constructor(private readonly prismaService: PrismaService) {}
+    
+    @Roles('HR')
+    @UseGuards(JwtAuthGuard, RolesGuard)
     @Post('create')
     async createInterview(
         @Body() body: { candidateId: number; scheduledAt: string; interviewer: string } 
@@ -34,6 +40,9 @@ export class InterviewController {
         });
         return interview;
     }
+
+    @Roles('HR')
+    @UseGuards(JwtAuthGuard, RolesGuard)
     @Put(':id')
     async updateInterview(
         @Param('id') id: string,    

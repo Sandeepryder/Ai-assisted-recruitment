@@ -6,17 +6,16 @@ export declare class InterviewService {
         success: boolean;
         data: {
             id: number;
+            createdAt: Date;
+            status: string;
             candidateId: number;
             scheduledAt: Date;
             interviewer: string;
-            status: string;
-            createdAt: Date;
         };
     }>;
     getAllInterviews(): Promise<({
         candidate: {
             id: number;
-            status: string;
             createdAt: Date;
             firstName: string;
             lastName: string;
@@ -25,19 +24,19 @@ export declare class InterviewService {
             jobId: number;
             score: number;
             scoreBreakdown: import("@prisma/client/runtime/library").JsonValue;
+            status: string;
         };
     } & {
         id: number;
+        createdAt: Date;
+        status: string;
         candidateId: number;
         scheduledAt: Date;
         interviewer: string;
-        status: string;
-        createdAt: Date;
     })[]>;
     getInterview(id: number): Promise<{
         candidate: {
             id: number;
-            status: string;
             createdAt: Date;
             firstName: string;
             lastName: string;
@@ -46,29 +45,30 @@ export declare class InterviewService {
             jobId: number;
             score: number;
             scoreBreakdown: import("@prisma/client/runtime/library").JsonValue;
+            status: string;
         };
     } & {
         id: number;
+        createdAt: Date;
+        status: string;
         candidateId: number;
         scheduledAt: Date;
         interviewer: string;
-        status: string;
-        createdAt: Date;
     }>;
     updateInterview(id: number, data: any): Promise<{
         id: number;
+        createdAt: Date;
+        status: string;
         candidateId: number;
         scheduledAt: Date;
         interviewer: string;
-        status: string;
-        createdAt: Date;
     }>;
     deleteInterview(id: number): Promise<{
         id: number;
+        createdAt: Date;
+        status: string;
         candidateId: number;
         scheduledAt: Date;
         interviewer: string;
-        status: string;
-        createdAt: Date;
     }>;
 }

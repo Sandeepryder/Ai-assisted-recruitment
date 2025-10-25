@@ -4,11 +4,11 @@ export declare class FeedbackService {
     constructor(prisma: PrismaService);
     createFeedback(data: any): Promise<{
         id: number;
+        createdAt: Date;
         candidateId: number;
         interviewer: string;
         rating: number;
         notes: string;
-        createdAt: Date;
     }>;
     getAllFeedback(): Promise<({
         candidate: {
@@ -25,11 +25,11 @@ export declare class FeedbackService {
         };
     } & {
         id: number;
+        createdAt: Date;
         candidateId: number;
         interviewer: string;
         rating: number;
         notes: string;
-        createdAt: Date;
     })[]>;
     getFeedback(id: number): Promise<{
         candidate: {
@@ -46,26 +46,26 @@ export declare class FeedbackService {
         };
     } & {
         id: number;
+        createdAt: Date;
         candidateId: number;
         interviewer: string;
         rating: number;
         notes: string;
-        createdAt: Date;
     }>;
     updateFeedback(id: number, data: any): Promise<{
         id: number;
+        createdAt: Date;
         candidateId: number;
         interviewer: string;
         rating: number;
         notes: string;
-        createdAt: Date;
     }>;
     deleteFeedback(id: number): Promise<{
         id: number;
+        createdAt: Date;
         candidateId: number;
         interviewer: string;
         rating: number;
         notes: string;
-        createdAt: Date;
     }>;
 }
