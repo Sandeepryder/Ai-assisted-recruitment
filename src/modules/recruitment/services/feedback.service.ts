@@ -31,7 +31,7 @@ export class FeedbackService{
     return feedback;
   }
   
-  async updateInterview(id: number, data: any) {
+  async updateFeedback(id: number, data: any) {
         return this.prisma.feedback.update({
             where: { id },  
             data: {

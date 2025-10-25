@@ -52,7 +52,7 @@ export declare class FeedbackService {
         notes: string;
         createdAt: Date;
     }>;
-    updateInterview(id: number, data: any): Promise<{
+    updateFeedback(id: number, data: any): Promise<{
         id: number;
         candidateId: number;
         interviewer: string;

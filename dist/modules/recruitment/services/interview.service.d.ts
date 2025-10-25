@@ -1,5 +1,5 @@
 import { PrismaService } from "./prisma.services";
-export declare class JobService {
+export declare class InterviewService {
     private prisma;
     constructor(prisma: PrismaService);
     createInterview(data: any): Promise<{

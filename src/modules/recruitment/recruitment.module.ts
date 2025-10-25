@@ -7,14 +7,20 @@ import { CandidateService } from "./services/candidate.service";
 import { CandidateController } from "./controllers/candidate.controller";
 import { JobService } from "./services/job.service";
 import { JobController } from "./controllers/job.controllers";
+import { InterviewController } from "./controllers/interview.controller";
+import { InterviewService } from "./services/interview.service";
+import { FeedbackController } from "./controllers/feedback.controller";
+import { FeedbackService } from "./services/feedback.service";
 
 @Module({
     imports: [],
     controllers: [
         ResumeController,
         CandidateController,
-        JobController
+        JobController,
+        InterviewController,
+        FeedbackController
     ],
-    providers: [ResumeService,ScoringService,PrismaService,CandidateService,JobService],
+    providers: [ResumeService,ScoringService,PrismaService,CandidateService,JobService, InterviewService , FeedbackService],
 })
 export class RecruitmentModule {}

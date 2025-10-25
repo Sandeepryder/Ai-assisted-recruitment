@@ -40,7 +40,7 @@ let FeedbackService = class FeedbackService {
             throw new common_1.NotFoundException(`Feedback with id ${id} not found`);
         return feedback;
     }
-    async updateInterview(id, data) {
+    async updateFeedback(id, data) {
         return this.prisma.feedback.update({
             where: { id },
             data: {

@@ -2,7 +2,7 @@ import { Injectable } from "@nestjs/common";
 import { PrismaService } from "./prisma.services";
 
 @Injectable()
-export class JobService {
+export class InterviewService {
     constructor(private prisma: PrismaService) {}   
     async createInterview(data: any) {
         const result = await this.prisma.interview.create({

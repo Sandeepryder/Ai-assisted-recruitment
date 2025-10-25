@@ -16,6 +16,10 @@ const candidate_service_1 = require("./services/candidate.service");
 const candidate_controller_1 = require("./controllers/candidate.controller");
 const job_service_1 = require("./services/job.service");
 const job_controllers_1 = require("./controllers/job.controllers");
+const interview_controller_1 = require("./controllers/interview.controller");
+const interview_service_1 = require("./services/interview.service");
+const feedback_controller_1 = require("./controllers/feedback.controller");
+const feedback_service_1 = require("./services/feedback.service");
 let RecruitmentModule = class RecruitmentModule {
 };
 exports.RecruitmentModule = RecruitmentModule;
@@ -25,9 +29,11 @@ exports.RecruitmentModule = RecruitmentModule = __decorate([
         controllers: [
             resume_controller_1.ResumeController,
             candidate_controller_1.CandidateController,
-            job_controllers_1.JobController
+            job_controllers_1.JobController,
+            interview_controller_1.InterviewController,
+            feedback_controller_1.FeedbackController
         ],
-        providers: [resume_service_1.ResumeService, scoring_service_1.ScoringService, prisma_services_1.PrismaService, candidate_service_1.CandidateService, job_service_1.JobService],
+        providers: [resume_service_1.ResumeService, scoring_service_1.ScoringService, prisma_services_1.PrismaService, candidate_service_1.CandidateService, job_service_1.JobService, interview_service_1.InterviewService, feedback_service_1.FeedbackService],
     })
 ], RecruitmentModule);
 //# sourceMappingURL=recruitment.module.js.map
