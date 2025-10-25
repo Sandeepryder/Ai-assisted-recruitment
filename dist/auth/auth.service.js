@@ -8,40 +8,51 @@ var __decorate = (this && this.__decorate) || function (decorators, target, key,
 var __metadata = (this && this.__metadata) || function (k, v) {
     if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
 };
-var __rest = (this && this.__rest) || function (s, e) {
-    var t = {};
-    for (var p in s) if (Object.prototype.hasOwnProperty.call(s, p) && e.indexOf(p) < 0)
-        t[p] = s[p];
-    if (s != null && typeof Object.getOwnPropertySymbols === "function")
-        for (var i = 0, p = Object.getOwnPropertySymbols(s); i < p.length; i++) {
-            if (e.indexOf(p[i]) < 0 && Object.prototype.propertyIsEnumerable.call(s, p[i]))
-                t[p[i]] = s[p[i]];
-        }
-    return t;
-};
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.AuthService = void 0;
 const common_1 = require("@nestjs/common");
 const jwt_1 = require("@nestjs/jwt");
 const client_1 = require("@prisma/client");
+const bcrypt = require("bcryptjs");
 let AuthService = class AuthService {
-    constructor(jwtService) {
-        this.jwtService = jwtService;
+    constructor(jwt) {
+        this.jwt = jwt;
         this.prisma = new client_1.PrismaClient();
     }
     async validateUser(email, password) {
-        const user = await this.prisma.candidate.findUnique({ where: { email } });
-        if (user && password === password) {
-            const result = __rest(user, []);
-            return result;
-        }
-        return null;
+        const user = await this.prisma.user.findUnique({ where: { email } });
+        if (!user)
+            return null;
+        const isPasswordValid = await bcrypt.compare(password, user.password);
+        if (!isPasswordValid)
+            return null;
+        return user;
     }
-    async login(user) {
-        const payload = { sub: user.id, email: user.email, role: user.role };
-        return {
-            access_token: this.jwtService.sign(payload),
-        };
+    async register(data) {
+        const existing = await this.prisma.user.findUnique({
+            where: { email: data.email },
+        });
+        if (existing)
+            throw new common_1.BadRequestException("User already exists");
+        const hashedPassword = await bcrypt.hash(data.password, 10);
+        const user = await this.prisma.user.create({
+            data: {
+                email: data.email,
+                password: hashedPassword,
+                role: data.role || 'CANDIDATE',
+            },
+        });
+        return { message: "User registered successfully", user };
+    }
+    async login(data) {
+        const user = await this.prisma.user.findUnique({ where: { email: data.email } });
+        if (!user)
+            return null;
+        const isPasswordValid = await bcrypt.compare(data.password, user.password);
+        if (!isPasswordValid)
+            return null;
+        const token = this.jwt.sign({ id: user.id, email: user.email, role: user.role });
+        return { access_token: token, user: { id: user.id, email: user.email, role: user.role } };
     }
 };
 exports.AuthService = AuthService;

@@ -20,10 +20,13 @@ let AuthController = class AuthController {
         this.authService = authService;
     }
     async login(body) {
-        const user = await this.authService.validateUser(body.email, body.password);
-        if (!user)
+        const result = await this.authService.login(body);
+        if (!result)
             return { message: 'Invalid credentials' };
-        return this.authService.login(user);
+        return result;
+    }
+    async register(body) {
+        return this.authService.register(body);
     }
 };
 exports.AuthController = AuthController;
@@ -34,6 +37,13 @@ __decorate([
     __metadata("design:paramtypes", [Object]),
     __metadata("design:returntype", Promise)
 ], AuthController.prototype, "login", null);
+__decorate([
+    (0, common_1.Post)('register'),
+    __param(0, (0, common_1.Body)()),
+    __metadata("design:type", Function),
+    __metadata("design:paramtypes", [Object]),
+    __metadata("design:returntype", Promise)
+], AuthController.prototype, "register", null);
 exports.AuthController = AuthController = __decorate([
     (0, common_1.Controller)('auth'),
     __metadata("design:paramtypes", [auth_service_1.AuthService])

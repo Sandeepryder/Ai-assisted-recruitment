@@ -6,8 +6,8 @@ export declare class InterviewService {
         success: boolean;
         data: {
             id: number;
-            createdAt: Date;
             status: string;
+            createdAt: Date;
             candidateId: number;
             scheduledAt: Date;
             interviewer: string;
@@ -16,20 +16,21 @@ export declare class InterviewService {
     getAllInterviews(): Promise<({
         candidate: {
             id: number;
-            createdAt: Date;
             firstName: string;
             lastName: string;
             email: string;
+            password: string;
             phone: string;
             jobId: number;
             score: number;
             scoreBreakdown: import("@prisma/client/runtime/library").JsonValue;
             status: string;
+            createdAt: Date;
         };
     } & {
         id: number;
-        createdAt: Date;
         status: string;
+        createdAt: Date;
         candidateId: number;
         scheduledAt: Date;
         interviewer: string;
@@ -37,36 +38,37 @@ export declare class InterviewService {
     getInterview(id: number): Promise<{
         candidate: {
             id: number;
-            createdAt: Date;
             firstName: string;
             lastName: string;
             email: string;
+            password: string;
             phone: string;
             jobId: number;
             score: number;
             scoreBreakdown: import("@prisma/client/runtime/library").JsonValue;
             status: string;
+            createdAt: Date;
         };
     } & {
         id: number;
-        createdAt: Date;
         status: string;
+        createdAt: Date;
         candidateId: number;
         scheduledAt: Date;
         interviewer: string;
     }>;
     updateInterview(id: number, data: any): Promise<{
         id: number;
-        createdAt: Date;
         status: string;
+        createdAt: Date;
         candidateId: number;
         scheduledAt: Date;
         interviewer: string;
     }>;
     deleteInterview(id: number): Promise<{
         id: number;
-        createdAt: Date;
         status: string;
+        createdAt: Date;
         candidateId: number;
         scheduledAt: Date;
         interviewer: string;

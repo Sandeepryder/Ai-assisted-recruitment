@@ -1,30 +1,55 @@
-import { Injectable } from '@nestjs/common';
-import { JwtService } from '@nestjs/jwt';
-import { PrismaClient } from '@prisma/client';
+import { BadRequestException, Injectable } from "@nestjs/common";
+import { JwtService } from "@nestjs/jwt";
+import { PrismaClient } from "@prisma/client";
+import * as bcrypt from 'bcryptjs';
 
 @Injectable()
 export class AuthService {
-    private prisma = new PrismaClient();
-    constructor(private jwtService: JwtService ) {}
+  private prisma = new PrismaClient();
+  constructor(private jwt: JwtService) {}
 
-//   async validateUser(email: string, password: string) {
-//     // fetch user from DB and check password
-//     const user = { id: 1, email, role: 'admin' }; // dummy
-//     return user;
-//   }
+  
     async validateUser(email: string, password: string) {
-        const user = await this.prisma.candidate.findUnique({ where: { email } });
-        if (user && password === password) {
-        const {  ...result } = user;
-        return result;
-        }
-        return null;
+        const user = await this.prisma.user.findUnique({ where: { email } });
+        if (!user) return null;
+      
+        const isPasswordValid = await bcrypt.compare(password, user.password);
+        if (!isPasswordValid) return null;
+       
+        return user;
     }
 
-    async login(user: any) {
-        const payload = { sub: user.id, email: user.email, role: user.role };
-        return {
-        access_token: this.jwtService.sign(payload),
-        };
-    }
+
+
+  async register(data: { email: string; password: string ,role?: string}) {
+    const existing = await this.prisma.user.findUnique({
+      where: { email: data.email },
+    });
+    if (existing) throw new BadRequestException("User already exists");
+
+    const hashedPassword = await bcrypt.hash(data.password, 10);
+
+    const user = await this.prisma.user.create({
+      data: {
+        email: data.email,
+        password: hashedPassword,
+        role: data.role || 'CANDIDATE',
+      },
+    });
+
+    return { message: "User registered successfully", user };
+  }
+
+
+    async login(data: { email: string; password: string }) {
+    const user = await this.prisma.user.findUnique({ where: { email: data.email } });
+    if (!user) return null;
+
+    const isPasswordValid = await bcrypt.compare(data.password, user.password);
+    if (!isPasswordValid) return null;
+
+    const token = this.jwt.sign({ id: user.id, email: user.email, role: user.role });
+    return { access_token: token, user: { id: user.id, email: user.email, role: user.role } };
+}
+
 }

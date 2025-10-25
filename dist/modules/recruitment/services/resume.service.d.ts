@@ -10,15 +10,16 @@ export declare class ResumeService {
         parsed: any;
         updatedCandidate: {
             id: number;
-            createdAt: Date;
             firstName: string;
             lastName: string;
             email: string;
+            password: string;
             phone: string;
             jobId: number;
             score: number;
             scoreBreakdown: import("@prisma/client/runtime/library").JsonValue;
             status: string;
+            createdAt: Date;
         };
         path: string;
         score: {

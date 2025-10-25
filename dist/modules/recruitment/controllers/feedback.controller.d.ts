@@ -11,54 +11,56 @@ export declare class FeedbackController {
         success: boolean;
         data: {
             id: number;
+            createdAt: Date;
             candidateId: number;
             interviewer: string;
             rating: number;
             notes: string;
-            createdAt: Date;
         };
     }>;
     getAllFeedback(): Promise<({
         candidate: {
             id: number;
-            createdAt: Date;
             firstName: string;
             lastName: string;
             email: string;
+            password: string;
             phone: string;
             jobId: number;
             score: number;
             scoreBreakdown: import("@prisma/client/runtime/library").JsonValue;
             status: string;
+            createdAt: Date;
         };
     } & {
         id: number;
+        createdAt: Date;
         candidateId: number;
         interviewer: string;
         rating: number;
         notes: string;
-        createdAt: Date;
     })[]>;
     getFeedback(id: string): Promise<{
         candidate: {
             id: number;
-            createdAt: Date;
             firstName: string;
             lastName: string;
             email: string;
+            password: string;
             phone: string;
             jobId: number;
             score: number;
             scoreBreakdown: import("@prisma/client/runtime/library").JsonValue;
             status: string;
+            createdAt: Date;
         };
     } & {
         id: number;
+        createdAt: Date;
         candidateId: number;
         interviewer: string;
         rating: number;
         notes: string;
-        createdAt: Date;
     }>;
     updateFeedback(id: string, body: {
         interviewer?: string;
@@ -66,18 +68,18 @@ export declare class FeedbackController {
         notes?: string;
     }): Promise<{
         id: number;
+        createdAt: Date;
         candidateId: number;
         interviewer: string;
         rating: number;
         notes: string;
-        createdAt: Date;
     }>;
     deleteFeedback(id: string): Promise<{
         id: number;
+        createdAt: Date;
         candidateId: number;
         interviewer: string;
         rating: number;
         notes: string;
-        createdAt: Date;
     }>;
 }

@@ -15,6 +15,7 @@ export declare class CandidateController {
             firstName: string;
             lastName: string;
             email: string;
+            password: string;
             phone: string;
             jobId: number;
             score: number;
@@ -42,6 +43,7 @@ export declare class CandidateController {
         firstName: string;
         lastName: string;
         email: string;
+        password: string;
         phone: string;
         jobId: number;
         score: number;
@@ -68,6 +70,7 @@ export declare class CandidateController {
         firstName: string;
         lastName: string;
         email: string;
+        password: string;
         phone: string;
         jobId: number;
         score: number;
@@ -86,6 +89,7 @@ export declare class CandidateController {
         firstName: string;
         lastName: string;
         email: string;
+        password: string;
         phone: string;
         jobId: number;
         score: number;
@@ -98,6 +102,7 @@ export declare class CandidateController {
         firstName: string;
         lastName: string;
         email: string;
+        password: string;
         phone: string;
         jobId: number;
         score: number;

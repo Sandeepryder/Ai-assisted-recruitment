@@ -10,54 +10,56 @@ export declare class InterviewController {
         success: boolean;
         data: {
             id: number;
+            status: string;
+            createdAt: Date;
             candidateId: number;
             scheduledAt: Date;
             interviewer: string;
-            status: string;
-            createdAt: Date;
         };
     }>;
     getAllInterviews(): Promise<({
         candidate: {
             id: number;
-            status: string;
-            createdAt: Date;
             firstName: string;
             lastName: string;
             email: string;
+            password: string;
             phone: string;
             jobId: number;
             score: number;
             scoreBreakdown: import("@prisma/client/runtime/library").JsonValue;
+            status: string;
+            createdAt: Date;
         };
     } & {
         id: number;
+        status: string;
+        createdAt: Date;
         candidateId: number;
         scheduledAt: Date;
         interviewer: string;
-        status: string;
-        createdAt: Date;
     })[]>;
     getInterview(id: string): Promise<{
         candidate: {
             id: number;
-            status: string;
-            createdAt: Date;
             firstName: string;
             lastName: string;
             email: string;
+            password: string;
             phone: string;
             jobId: number;
             score: number;
             scoreBreakdown: import("@prisma/client/runtime/library").JsonValue;
+            status: string;
+            createdAt: Date;
         };
     } & {
         id: number;
+        status: string;
+        createdAt: Date;
         candidateId: number;
         scheduledAt: Date;
         interviewer: string;
-        status: string;
-        createdAt: Date;
     }>;
     updateInterview(id: string, body: {
         scheduledAt?: string;
@@ -65,18 +67,18 @@ export declare class InterviewController {
         interviewer?: string;
     }): Promise<{
         id: number;
+        status: string;
+        createdAt: Date;
         candidateId: number;
         scheduledAt: Date;
         interviewer: string;
-        status: string;
-        createdAt: Date;
     }>;
     deleteInterview(id: string): Promise<{
         id: number;
+        status: string;
+        createdAt: Date;
         candidateId: number;
         scheduledAt: Date;
         interviewer: string;
-        status: string;
-        createdAt: Date;
     }>;
 }

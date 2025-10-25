@@ -10,6 +10,7 @@ export declare class ResumeController {
             firstName: string;
             lastName: string;
             email: string;
+            password: string;
             phone: string;
             jobId: number;
             score: number;

@@ -15,9 +15,6 @@ Object.defineProperty(exports, "__esModule", { value: true });
 exports.CandidateController = void 0;
 const common_1 = require("@nestjs/common");
 const candidate_service_1 = require("../services/candidate.service");
-const roles_decorator_1 = require("../../../auth/decorators/roles.decorator");
-const jwt_auth_guard_1 = require("../../../auth/guards/jwt-auth.guard");
-const roles_guard_1 = require("../../../auth/guards/roles.guard");
 let CandidateController = class CandidateController {
     constructor(candidateService) {
         this.candidateService = candidateService;
@@ -40,46 +37,42 @@ let CandidateController = class CandidateController {
 };
 exports.CandidateController = CandidateController;
 __decorate([
-    (0, roles_decorator_1.Roles)('HR'),
-    (0, common_1.UseGuards)(jwt_auth_guard_1.JwtAuthGuard, roles_guard_1.RolesGuard),
-    (0, common_1.Post)('create'),
+    (0, common_1.Post)("create"),
     __param(0, (0, common_1.Body)()),
     __metadata("design:type", Function),
     __metadata("design:paramtypes", [Object]),
     __metadata("design:returntype", Promise)
 ], CandidateController.prototype, "createCandidate", null);
 __decorate([
-    (0, common_1.Get)('all'),
+    (0, common_1.Get)("all"),
     __metadata("design:type", Function),
     __metadata("design:paramtypes", []),
     __metadata("design:returntype", Promise)
 ], CandidateController.prototype, "getAllCandidates", null);
 __decorate([
-    (0, common_1.Get)(':id'),
-    __param(0, (0, common_1.Param)('id')),
+    (0, common_1.Get)(":id"),
+    __param(0, (0, common_1.Param)("id")),
     __metadata("design:type", Function),
     __metadata("design:paramtypes", [String]),
     __metadata("design:returntype", Promise)
 ], CandidateController.prototype, "getCandidate", null);
 __decorate([
-    (0, roles_decorator_1.Roles)('HR'),
-    (0, common_1.UseGuards)(jwt_auth_guard_1.JwtAuthGuard, roles_guard_1.RolesGuard),
-    (0, common_1.Put)(':id'),
-    __param(0, (0, common_1.Param)('id')),
+    (0, common_1.Put)(":id"),
+    __param(0, (0, common_1.Param)("id")),
     __param(1, (0, common_1.Body)()),
     __metadata("design:type", Function),
     __metadata("design:paramtypes", [String, Object]),
     __metadata("design:returntype", Promise)
 ], CandidateController.prototype, "updateCandidate", null);
 __decorate([
-    (0, common_1.Delete)(':id'),
-    __param(0, (0, common_1.Param)('id')),
+    (0, common_1.Delete)(":id"),
+    __param(0, (0, common_1.Param)("id")),
     __metadata("design:type", Function),
     __metadata("design:paramtypes", [String]),
     __metadata("design:returntype", Promise)
 ], CandidateController.prototype, "deleteCandidate", null);
 exports.CandidateController = CandidateController = __decorate([
-    (0, common_1.Controller)('candidate'),
+    (0, common_1.Controller)("candidate"),
     __metadata("design:paramtypes", [candidate_service_1.CandidateService])
 ], CandidateController);
 //# sourceMappingURL=candidate.controller.js.map
