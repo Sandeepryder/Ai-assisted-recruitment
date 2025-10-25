@@ -1,4 +1,4 @@
-import { Controller , Post, Body ,Get } from "@nestjs/common";
+import { Controller , Post, Body ,Get , Put, Delete ,Param} from "@nestjs/common";
 import { JobService } from "../services/job.service";
 
 @Controller('job')
@@ -14,6 +14,21 @@ export class JobController {
     @Get('all')
     async getAllJobs() {
         return this.jobService.getAllJobs();
+    }
+
+    @Get(':id')
+    async getJob(@Param('id') id: string) {
+        return this.jobService.getJob(Number(id));
+    }
+
+    @Put(':id')
+    async updateJob(@Param('id') id: string, @Body() body: any) {
+        return this.jobService.updateJob(Number(id), body);
+    }
+
+    @Delete(':id')
+    async deleteJob(@Param('id') id: string) {
+        return this.jobService.deleteJob(Number(id));
     }
 
 }

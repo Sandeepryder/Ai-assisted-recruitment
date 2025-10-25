@@ -1,4 +1,4 @@
-import { Controller, Post, Body } from "@nestjs/common";
+import { Controller, Post,Get , Put, Delete, Param, Body } from "@nestjs/common";
 import { CandidateService } from "../services/candidate.service";
 
 @Controller('candidate')
@@ -12,5 +12,35 @@ export class CandidateController {
   ) {
     return this.candidateService.createCandidate(body);
   }
+
+  @Get('all')
+  async getAllCandidates() {
+    return this.candidateService.getAllCandidates();
+  }
+
+   @Get(':id')
+  async getCandidate(@Param('id') id: string) {
+    return this.candidateService.getCandidate(Number(id));
+  }
+
+  @Put(':id')
+  async updateCandidate(
+    @Param('id') id: string,
+    @Body() body: { 
+      firstName?: string; 
+      lastName?: string; 
+      email?: string; 
+      phone?: string; 
+      status?: string 
+    }
+  ) {
+    return this.candidateService.updateCandidate(Number(id), body);
+  }
+
+  @Delete(':id')
+  async deleteCandidate(@Param('id') id: string) {
+    return this.candidateService.deleteCandidate(Number(id));
+  }
+
 }
 

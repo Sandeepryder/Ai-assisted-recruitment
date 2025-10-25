@@ -25,6 +25,15 @@ let JobController = class JobController {
     async getAllJobs() {
         return this.jobService.getAllJobs();
     }
+    async getJob(id) {
+        return this.jobService.getJob(Number(id));
+    }
+    async updateJob(id, body) {
+        return this.jobService.updateJob(Number(id), body);
+    }
+    async deleteJob(id) {
+        return this.jobService.deleteJob(Number(id));
+    }
 };
 exports.JobController = JobController;
 __decorate([
@@ -40,6 +49,28 @@ __decorate([
     __metadata("design:paramtypes", []),
     __metadata("design:returntype", Promise)
 ], JobController.prototype, "getAllJobs", null);
+__decorate([
+    (0, common_1.Get)(':id'),
+    __param(0, (0, common_1.Param)('id')),
+    __metadata("design:type", Function),
+    __metadata("design:paramtypes", [String]),
+    __metadata("design:returntype", Promise)
+], JobController.prototype, "getJob", null);
+__decorate([
+    (0, common_1.Put)(':id'),
+    __param(0, (0, common_1.Param)('id')),
+    __param(1, (0, common_1.Body)()),
+    __metadata("design:type", Function),
+    __metadata("design:paramtypes", [String, Object]),
+    __metadata("design:returntype", Promise)
+], JobController.prototype, "updateJob", null);
+__decorate([
+    (0, common_1.Delete)(':id'),
+    __param(0, (0, common_1.Param)('id')),
+    __metadata("design:type", Function),
+    __metadata("design:paramtypes", [String]),
+    __metadata("design:returntype", Promise)
+], JobController.prototype, "deleteJob", null);
 exports.JobController = JobController = __decorate([
     (0, common_1.Controller)('job'),
     __metadata("design:paramtypes", [job_service_1.JobService])

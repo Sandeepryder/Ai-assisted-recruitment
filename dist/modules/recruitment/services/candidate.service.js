@@ -19,7 +19,7 @@ let CandidateService = class CandidateService {
     async createCandidate(data) {
         const jobId = Number(data.jobId);
         if (Number.isNaN(jobId)) {
-            throw new common_1.BadRequestException('Invalid jobId');
+            throw new common_1.BadRequestException("Invalid jobId");
         }
         const job = await this.prisma.job.findUnique({ where: { id: jobId } });
         if (!job) {
@@ -35,6 +35,35 @@ let CandidateService = class CandidateService {
             },
         });
         return { success: true, data: result };
+    }
+    async getAllCandidates() {
+        return this.prisma.candidate.findMany({
+            include: { job: true, parsedResume: true },
+        });
+    }
+    async getCandidate(id) {
+        const candidate = await this.prisma.candidate.findUnique({
+            where: { id },
+            include: { job: true, parsedResume: true },
+        });
+        if (!candidate)
+            throw new common_1.NotFoundException(`Candidate with id ${id} not found`);
+        return candidate;
+    }
+    async updateCandidate(id, data) {
+        return this.prisma.candidate.update({
+            where: { id },
+            data: {
+                firstName: data.firstName,
+                lastName: data.lastName,
+                email: data.email,
+                phone: data.phone,
+                status: data.status,
+            },
+        });
+    }
+    async deleteCandidate(id) {
+        return this.prisma.candidate.delete({ where: { id } });
     }
 };
 exports.CandidateService = CandidateService;

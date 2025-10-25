@@ -31,6 +31,28 @@ let JobService = class JobService {
             include: { candidates: true },
         });
     }
+    async getJob(id) {
+        const job = await this.prisma.job.findUnique({
+            where: { id },
+            include: { candidates: true },
+        });
+        if (!job)
+            throw new common_1.NotFoundException(`Job with id ${id} not found`);
+        return job;
+    }
+    async updateJob(id, data) {
+        return this.prisma.job.update({
+            where: { id },
+            data: {
+                title: data.title,
+                description: data.description,
+                scoringKeywords: data.scoringKeywords || [],
+            },
+        });
+    }
+    async deleteJob(id) {
+        return this.prisma.job.delete({ where: { id } });
+    }
 };
 exports.JobService = JobService;
 exports.JobService = JobService = __decorate([
