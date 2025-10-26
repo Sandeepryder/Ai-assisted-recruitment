@@ -53,6 +53,11 @@ export class CandidateController {
     return this.candidateService.updateCandidate(Number(id), body);
   }
 
+  @Put(':id/update-status')
+  async updateStatus(@Param('id') id: string) {
+    return this.candidateService.updateStatusBasedOnScore(Number(id));
+  }
+
   @Delete(":id")
   async deleteCandidate(@Param("id") id: string) {
     return this.candidateService.deleteCandidate(Number(id));

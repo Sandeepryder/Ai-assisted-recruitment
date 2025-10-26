@@ -30,7 +30,6 @@ let CandidateService = class CandidateService {
                 firstName: data.firstName,
                 lastName: data.lastName,
                 email: data.email,
-                password: data.password,
                 phone: data.phone,
                 job: { connect: { id: jobId } },
             },
@@ -61,6 +60,25 @@ let CandidateService = class CandidateService {
                 phone: data.phone,
                 status: data.status,
             },
+        });
+    }
+    async updateStatusBasedOnScore(candidateId) {
+        const candidate = await this.prisma.candidate.findUnique({
+            where: { id: candidateId },
+        });
+        if (!candidate) {
+            throw new Error('Candidate not found');
+        }
+        let status = '';
+        if (candidate.score !== null) {
+            status = candidate.score >= 0.6 ? 'shortlisted' : 'rejected';
+        }
+        else {
+            status = 'pending';
+        }
+        return this.prisma.candidate.update({
+            where: { id: candidateId },
+            data: { status },
         });
     }
     async deleteCandidate(id) {

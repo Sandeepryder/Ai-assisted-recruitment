@@ -14,49 +14,28 @@ var __param = (this && this.__param) || function (paramIndex, decorator) {
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.FeedbackController = void 0;
 const common_1 = require("@nestjs/common");
-const prisma_services_1 = require("../services/prisma.services");
 const roles_decorator_1 = require("../../../auth/decorators/roles.decorator");
 const jwt_auth_guard_1 = require("../../../auth/guards/jwt-auth.guard");
 const roles_guard_1 = require("../../../auth/guards/roles.guard");
+const feedback_service_1 = require("../services/feedback.service");
 let FeedbackController = class FeedbackController {
-    constructor(prismaservice) {
-        this.prismaservice = prismaservice;
+    constructor(feedbackservice) {
+        this.feedbackservice = feedbackservice;
     }
     async createFeedback(body) {
-        const result = await this.prismaservice.feedback.create({
-            data: {
-                candidateId: body.candidateId,
-                interviewer: body.interviewer,
-                rating: body.rating,
-                notes: body.notes
-            }
-        });
-        return { success: true, data: result };
+        return this.feedbackservice.createFeedback(body);
     }
     async getAllFeedback() {
-        return this.prismaservice.feedback.findMany({
-            include: { candidate: true }
-        });
+        this.feedbackservice.getAllFeedback();
     }
     async getFeedback(id) {
-        const feedback = await this.prismaservice.feedback.findUnique({
-            where: { id: Number(id) },
-            include: { candidate: true }
-        });
-        return feedback;
+        return this.feedbackservice.getFeedback(Number(id));
     }
     async updateFeedback(id, body) {
-        return this.prismaservice.feedback.update({
-            where: { id: Number(id) },
-            data: {
-                interviewer: body.interviewer,
-                rating: body.rating,
-                notes: body.notes
-            }
-        });
+        return this.feedbackservice.updateFeedback(Number(id), body);
     }
     async deleteFeedback(id) {
-        return this.prismaservice.feedback.delete({ where: { id: Number(id) } });
+        return this.feedbackservice.deleteFeedback(Number(id));
     }
 };
 exports.FeedbackController = FeedbackController;
@@ -101,6 +80,6 @@ __decorate([
 ], FeedbackController.prototype, "deleteFeedback", null);
 exports.FeedbackController = FeedbackController = __decorate([
     (0, common_1.Controller)('feedback'),
-    __metadata("design:paramtypes", [prisma_services_1.PrismaService])
+    __metadata("design:paramtypes", [feedback_service_1.FeedbackService])
 ], FeedbackController);
 //# sourceMappingURL=feedback.controller.js.map

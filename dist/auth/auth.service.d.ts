@@ -5,10 +5,10 @@ export declare class AuthService {
     constructor(jwt: JwtService);
     validateUser(email: string, password: string): Promise<{
         id: number;
+        createdAt: Date;
         email: string;
         password: string;
         role: string;
-        createdAt: Date;
     }>;
     register(data: {
         email: string;
@@ -18,10 +18,10 @@ export declare class AuthService {
         message: string;
         user: {
             id: number;
+            createdAt: Date;
             email: string;
             password: string;
             role: string;
-            createdAt: Date;
         };
     }>;
     login(data: {

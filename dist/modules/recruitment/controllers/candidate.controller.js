@@ -31,6 +31,9 @@ let CandidateController = class CandidateController {
     async updateCandidate(id, body) {
         return this.candidateService.updateCandidate(Number(id), body);
     }
+    async updateStatus(id) {
+        return this.candidateService.updateStatusBasedOnScore(Number(id));
+    }
     async deleteCandidate(id) {
         return this.candidateService.deleteCandidate(Number(id));
     }
@@ -64,6 +67,13 @@ __decorate([
     __metadata("design:paramtypes", [String, Object]),
     __metadata("design:returntype", Promise)
 ], CandidateController.prototype, "updateCandidate", null);
+__decorate([
+    (0, common_1.Put)(':id/update-status'),
+    __param(0, (0, common_1.Param)('id')),
+    __metadata("design:type", Function),
+    __metadata("design:paramtypes", [String]),
+    __metadata("design:returntype", Promise)
+], CandidateController.prototype, "updateStatus", null);
 __decorate([
     (0, common_1.Delete)(":id"),
     __param(0, (0, common_1.Param)("id")),

@@ -6,24 +6,23 @@ export declare class CandidateService {
         success: boolean;
         data: {
             id: number;
+            createdAt: Date;
             firstName: string;
             lastName: string;
             email: string;
-            password: string;
             phone: string;
             jobId: number;
             score: number;
             scoreBreakdown: import("@prisma/client/runtime/library").JsonValue;
             status: string;
-            createdAt: Date;
         };
     }>;
     getAllCandidates(): Promise<({
         job: {
             id: number;
-            createdAt: Date;
             title: string;
             description: string;
+            createdAt: Date;
             scoringKeywords: import("@prisma/client/runtime/library").JsonValue;
         };
         parsedResume: {
@@ -34,23 +33,22 @@ export declare class CandidateService {
         };
     } & {
         id: number;
+        createdAt: Date;
         firstName: string;
         lastName: string;
         email: string;
-        password: string;
         phone: string;
         jobId: number;
         score: number;
         scoreBreakdown: import("@prisma/client/runtime/library").JsonValue;
         status: string;
-        createdAt: Date;
     })[]>;
     getCandidate(id: number): Promise<{
         job: {
             id: number;
-            createdAt: Date;
             title: string;
             description: string;
+            createdAt: Date;
             scoringKeywords: import("@prisma/client/runtime/library").JsonValue;
         };
         parsedResume: {
@@ -61,41 +59,50 @@ export declare class CandidateService {
         };
     } & {
         id: number;
+        createdAt: Date;
         firstName: string;
         lastName: string;
         email: string;
-        password: string;
         phone: string;
         jobId: number;
         score: number;
         scoreBreakdown: import("@prisma/client/runtime/library").JsonValue;
         status: string;
-        createdAt: Date;
     }>;
     updateCandidate(id: number, data: any): Promise<{
         id: number;
+        createdAt: Date;
         firstName: string;
         lastName: string;
         email: string;
-        password: string;
         phone: string;
         jobId: number;
         score: number;
         scoreBreakdown: import("@prisma/client/runtime/library").JsonValue;
         status: string;
+    }>;
+    updateStatusBasedOnScore(candidateId: number): Promise<{
+        id: number;
         createdAt: Date;
+        firstName: string;
+        lastName: string;
+        email: string;
+        phone: string;
+        jobId: number;
+        score: number;
+        scoreBreakdown: import("@prisma/client/runtime/library").JsonValue;
+        status: string;
     }>;
     deleteCandidate(id: number): Promise<{
         id: number;
+        createdAt: Date;
         firstName: string;
         lastName: string;
         email: string;
-        password: string;
         phone: string;
         jobId: number;
         score: number;
         scoreBreakdown: import("@prisma/client/runtime/library").JsonValue;
         status: string;
-        createdAt: Date;
     }>;
 }

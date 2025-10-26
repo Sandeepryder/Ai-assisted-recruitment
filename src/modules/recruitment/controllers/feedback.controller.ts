@@ -3,11 +3,12 @@ import { PrismaService } from "../services/prisma.services";
 import { Roles } from "src/auth/decorators/roles.decorator";
 import { JwtAuthGuard } from "src/auth/guards/jwt-auth.guard";
 import { RolesGuard } from "src/auth/guards/roles.guard";
+import { FeedbackService } from "../services/feedback.service";
 
 
 @Controller('feedback')
 export class FeedbackController{
-    constructor(private readonly prismaservice : PrismaService){}
+    constructor(private readonly feedbackservice : FeedbackService){}
 
     @Roles('HR')
     @UseGuards(JwtAuthGuard, RolesGuard)
@@ -15,32 +16,18 @@ export class FeedbackController{
     async createFeedback(
         @Body() body :{candidateId: number; interviewer: string; rating: number; notes?: string}
     ){
-        const result = await this.prismaservice.feedback.create({
-            data :{
-                candidateId : body.candidateId,
-                interviewer : body.interviewer,
-                rating :body.rating,
-                notes : body.notes
-            }
-        });
-        return {success :true , data :result}
+        return this.feedbackservice.createFeedback(body)
     }
 
 
     @Get('all')
     async getAllFeedback(){
-        return this.prismaservice.feedback.findMany({
-            include :{candidate :true}
-        })
+       this.feedbackservice.getAllFeedback()
     }
 
     @Get(':id')
     async getFeedback(@Param('id') id :string){
-        const feedback = await this.prismaservice.feedback.findUnique({
-            where  :{id :Number(id)},
-            include :{candidate :true}
-        });
-        return feedback
+        return this.feedbackservice.getFeedback(Number(id))
     }
 
     @Roles('HR')
@@ -50,18 +37,11 @@ export class FeedbackController{
         @Param('id') id :string,
         @Body() body :{interviewer? :string ,rating?:number , notes?:string }
     ){
-        return this.prismaservice.feedback.update({
-            where: { id: Number(id) },  
-            data :{
-                interviewer : body.interviewer,
-                rating : body.rating,
-                notes : body.notes
-            }
-        })
+        return this.feedbackservice.updateFeedback(Number(id), body)
     }
 
     @Delete(':id')
     async deleteFeedback(@Param('id') id :string){
-        return this.prismaservice.feedback.delete({where :{id :Number(id)}})
+        return this.feedbackservice.deleteFeedback(Number(id))
     }
 }

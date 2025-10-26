@@ -7,13 +7,26 @@ export declare class ResumeService {
     private readonly logger;
     constructor(scoringService: ScoringService, prisma: PrismaService);
     uploadResume(file: Express.Multer.File, candidateIdInput: number | string): Promise<{
-        parsed: any;
+        resumeFile: {
+            id: number;
+            candidateId: number;
+            filename: string;
+            path: string;
+            mimetype: string;
+            size: number;
+            uploadedAt: Date;
+        };
+        parsed: {
+            id: number;
+            candidateId: number;
+            text: string;
+            keywords: import("@prisma/client/runtime/library").JsonValue;
+        };
         updatedCandidate: {
             id: number;
             firstName: string;
             lastName: string;
             email: string;
-            password: string;
             phone: string;
             jobId: number;
             score: number;

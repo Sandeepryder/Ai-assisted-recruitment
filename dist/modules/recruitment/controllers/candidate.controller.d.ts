@@ -15,7 +15,6 @@ export declare class CandidateController {
             firstName: string;
             lastName: string;
             email: string;
-            password: string;
             phone: string;
             jobId: number;
             score: number;
@@ -43,7 +42,6 @@ export declare class CandidateController {
         firstName: string;
         lastName: string;
         email: string;
-        password: string;
         phone: string;
         jobId: number;
         score: number;
@@ -70,7 +68,6 @@ export declare class CandidateController {
         firstName: string;
         lastName: string;
         email: string;
-        password: string;
         phone: string;
         jobId: number;
         score: number;
@@ -89,7 +86,18 @@ export declare class CandidateController {
         firstName: string;
         lastName: string;
         email: string;
-        password: string;
+        phone: string;
+        jobId: number;
+        score: number;
+        scoreBreakdown: import("@prisma/client/runtime/library").JsonValue;
+        status: string;
+        createdAt: Date;
+    }>;
+    updateStatus(id: string): Promise<{
+        id: number;
+        firstName: string;
+        lastName: string;
+        email: string;
         phone: string;
         jobId: number;
         score: number;
@@ -102,7 +110,6 @@ export declare class CandidateController {
         firstName: string;
         lastName: string;
         email: string;
-        password: string;
         phone: string;
         jobId: number;
         score: number;

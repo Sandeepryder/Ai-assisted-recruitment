@@ -13,16 +13,15 @@ export declare class FeedbackService {
     getAllFeedback(): Promise<({
         candidate: {
             id: number;
+            createdAt: Date;
             firstName: string;
             lastName: string;
             email: string;
-            password: string;
             phone: string;
             jobId: number;
             score: number;
             scoreBreakdown: import("@prisma/client/runtime/library").JsonValue;
             status: string;
-            createdAt: Date;
         };
     } & {
         id: number;
@@ -35,16 +34,15 @@ export declare class FeedbackService {
     getFeedback(id: number): Promise<{
         candidate: {
             id: number;
+            createdAt: Date;
             firstName: string;
             lastName: string;
             email: string;
-            password: string;
             phone: string;
             jobId: number;
             score: number;
             scoreBreakdown: import("@prisma/client/runtime/library").JsonValue;
             status: string;
-            createdAt: Date;
         };
     } & {
         id: number;

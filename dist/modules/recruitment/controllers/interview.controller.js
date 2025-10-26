@@ -14,49 +14,29 @@ var __param = (this && this.__param) || function (paramIndex, decorator) {
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.InterviewController = void 0;
 const common_1 = require("@nestjs/common");
-const prisma_services_1 = require("../services/prisma.services");
 const roles_decorator_1 = require("../../../auth/decorators/roles.decorator");
 const jwt_auth_guard_1 = require("../../../auth/guards/jwt-auth.guard");
 const roles_guard_1 = require("../../../auth/guards/roles.guard");
+const interview_service_1 = require("../services/interview.service");
 let InterviewController = class InterviewController {
-    constructor(prismaService) {
-        this.prismaService = prismaService;
+    constructor(interviewService) {
+        this.interviewService = interviewService;
     }
     async createInterview(body) {
-        const result = await this.prismaService.interview.create({
-            data: {
-                candidateId: body.candidateId,
-                scheduledAt: new Date(body.scheduledAt),
-                interviewer: body.interviewer,
-                status: 'scheduled'
-            },
-        });
-        return { success: true, data: result };
+        return this.interviewService.createInterview(body);
     }
     async getAllInterviews() {
-        return this.prismaService.interview.findMany({
-            include: { candidate: true },
-        });
+        return this.interviewService.getAllInterviews();
     }
+    ;
     async getInterview(id) {
-        const interview = await this.prismaService.interview.findUnique({
-            where: { id: Number(id) },
-            include: { candidate: true },
-        });
-        return interview;
+        return this.interviewService.getInterview(Number(id));
     }
     async updateInterview(id, body) {
-        return this.prismaService.interview.update({
-            where: { id: Number(id) },
-            data: {
-                scheduledAt: body.scheduledAt ? new Date(body.scheduledAt) : undefined,
-                status: body.status,
-                interviewer: body.interviewer,
-            },
-        });
+        return this.interviewService.updateInterview(Number(id), body);
     }
     async deleteInterview(id) {
-        return this.prismaService.interview.delete({ where: { id: Number(id) } });
+        return this.interviewService.deleteInterview(Number(id));
     }
 };
 exports.InterviewController = InterviewController;
@@ -101,6 +81,6 @@ __decorate([
 ], InterviewController.prototype, "deleteInterview", null);
 exports.InterviewController = InterviewController = __decorate([
     (0, common_1.Controller)('interview'),
-    __metadata("design:paramtypes", [prisma_services_1.PrismaService])
+    __metadata("design:paramtypes", [interview_service_1.InterviewService])
 ], InterviewController);
 //# sourceMappingURL=interview.controller.js.map

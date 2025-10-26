@@ -10,7 +10,7 @@ import { RolesGuard } from 'src/auth/guards/roles.guard';
 export class ResumeController {
   constructor(private readonly resumeService: ResumeService) {}
 
-  @Roles('HR')
+  // @Roles('HR')
   @UseGuards(JwtAuthGuard, RolesGuard)
   @Post('uploads')
   @UseInterceptors(

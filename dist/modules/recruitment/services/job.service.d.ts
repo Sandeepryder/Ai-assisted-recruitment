@@ -6,66 +6,64 @@ export declare class JobService {
         success: boolean;
         data: {
             id: number;
-            createdAt: Date;
             title: string;
             description: string;
+            createdAt: Date;
             scoringKeywords: import("@prisma/client/runtime/library").JsonValue;
         };
     }>;
     getAllJobs(): Promise<({
         candidates: {
             id: number;
+            createdAt: Date;
             firstName: string;
             lastName: string;
             email: string;
-            password: string;
             phone: string;
             jobId: number;
             score: number;
             scoreBreakdown: import("@prisma/client/runtime/library").JsonValue;
             status: string;
-            createdAt: Date;
         }[];
     } & {
         id: number;
-        createdAt: Date;
         title: string;
         description: string;
+        createdAt: Date;
         scoringKeywords: import("@prisma/client/runtime/library").JsonValue;
     })[]>;
     getJob(id: number): Promise<{
         candidates: {
             id: number;
+            createdAt: Date;
             firstName: string;
             lastName: string;
             email: string;
-            password: string;
             phone: string;
             jobId: number;
             score: number;
             scoreBreakdown: import("@prisma/client/runtime/library").JsonValue;
             status: string;
-            createdAt: Date;
         }[];
     } & {
         id: number;
-        createdAt: Date;
         title: string;
         description: string;
+        createdAt: Date;
         scoringKeywords: import("@prisma/client/runtime/library").JsonValue;
     }>;
     updateJob(id: number, data: any): Promise<{
         id: number;
-        createdAt: Date;
         title: string;
         description: string;
+        createdAt: Date;
         scoringKeywords: import("@prisma/client/runtime/library").JsonValue;
     }>;
     deleteJob(id: number): Promise<{
         id: number;
-        createdAt: Date;
         title: string;
         description: string;
+        createdAt: Date;
         scoringKeywords: import("@prisma/client/runtime/library").JsonValue;
     }>;
 }

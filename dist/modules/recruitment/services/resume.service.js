@@ -38,61 +38,63 @@ let ResumeService = ResumeService_1 = class ResumeService {
         }
         const uploadDir = path.join(process.cwd(), 'uploads', 'resumes');
         await fs_1.promises.mkdir(uploadDir, { recursive: true });
-        const uploadpath = path.join(uploadDir, `${candidateId}-${Date.now()}-${file.originalname}`);
-        await fs_1.promises.writeFile(uploadpath, file.buffer);
+        const filename = `${candidateId}-${Date.now()}-${file.originalname}`;
+        const uploadPath = path.join(uploadDir, filename);
+        await fs_1.promises.writeFile(uploadPath, file.buffer);
+        const resumeFile = await this.prisma.resumeFile.upsert({
+            where: { candidateId: candidateId },
+            update: {
+                filename: filename,
+                path: uploadPath,
+                mimetype: file.mimetype,
+                size: file.size,
+                uploadedAt: new Date(),
+            },
+            create: {
+                candidate: { connect: { id: candidateId } },
+                filename: filename,
+                path: uploadPath,
+                mimetype: file.mimetype,
+                size: file.size,
+            },
+        });
         const parsedText = await this.extractText(file);
         this.logger.log(`Parsed Text (first 200 chars): ${String(parsedText).slice(0, 200)}`);
         const scoreData = await this.scoringService.scoreResume(candidateId, parsedText);
         this.logger.log('Score Data is: ' + JSON.stringify(scoreData));
-        try {
-            const existingParsed = await this.prisma.resumeParsed.findUnique({
-                where: { candidateId: candidateId },
-            });
-            let parsed;
-            if (existingParsed) {
-                parsed = await this.prisma.resumeParsed.update({
-                    where: { id: existingParsed.id },
-                    data: {
-                        text: parsedText,
-                        keywords: ((_a = scoreData === null || scoreData === void 0 ? void 0 : scoreData.matchedKeywords) === null || _a === void 0 ? void 0 : _a.length) ? JSON.stringify(scoreData.matchedKeywords) : null,
-                    },
-                });
-            }
-            else {
-                parsed = await this.prisma.resumeParsed.create({
-                    data: {
-                        candidate: { connect: { id: candidateId } },
-                        text: parsedText,
-                        keywords: ((_b = scoreData === null || scoreData === void 0 ? void 0 : scoreData.matchedKeywords) === null || _b === void 0 ? void 0 : _b.length) ? JSON.stringify(scoreData.matchedKeywords) : null,
-                    },
-                });
-            }
-            const updatedCandidate = await this.prisma.candidate.update({
-                where: { id: candidateId },
-                data: {
-                    score: scoreData.finalScore,
-                    scoreBreakdown: scoreData.breakdown ? scoreData.breakdown : null,
-                },
-            });
-            return { parsed, updatedCandidate, path: uploadpath, score: scoreData };
-        }
-        catch (err) {
-            this.logger.error('DB error while saving parsed resume', err);
-            throw new common_1.InternalServerErrorException('Failed to save parsed resume');
-        }
+        const parsed = await this.prisma.resumeParsed.upsert({
+            where: { candidateId: candidateId },
+            update: {
+                text: parsedText,
+                keywords: ((_a = scoreData === null || scoreData === void 0 ? void 0 : scoreData.matchedKeywords) === null || _a === void 0 ? void 0 : _a.length) ? JSON.stringify(scoreData.matchedKeywords) : null,
+            },
+            create: {
+                candidate: { connect: { id: candidateId } },
+                text: parsedText,
+                keywords: ((_b = scoreData === null || scoreData === void 0 ? void 0 : scoreData.matchedKeywords) === null || _b === void 0 ? void 0 : _b.length) ? JSON.stringify(scoreData.matchedKeywords) : null,
+            },
+        });
+        const updatedCandidate = await this.prisma.candidate.update({
+            where: { id: candidateId },
+            data: {
+                score: scoreData.finalScore,
+                scoreBreakdown: scoreData.breakdown ? scoreData.breakdown : null,
+            },
+        });
+        return { resumeFile, parsed, updatedCandidate, path: uploadPath, score: scoreData };
     }
     async extractText(file) {
-        if (file.mimetype.includes("pdf")) {
-            const pdfParse = require("pdf-parse");
+        if (file.mimetype.includes('pdf')) {
+            const pdfParse = require('pdf-parse');
             const data = await pdfParse(file.buffer);
             return data.text;
         }
-        else if (file.mimetype.includes("word") || file.mimetype.includes("docx")) {
-            const mammoth = require("mammoth");
+        else if (file.mimetype.includes('word') || file.mimetype.includes('docx')) {
+            const mammoth = require('mammoth');
             const { value } = await mammoth.extractRawText({ buffer: file.buffer });
             return value;
         }
-        return file.buffer.toString("utf-8");
+        return file.buffer.toString('utf-8');
     }
 };
 exports.ResumeService = ResumeService;
