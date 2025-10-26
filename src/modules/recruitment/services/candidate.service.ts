@@ -94,22 +94,53 @@ export class CandidateService {
   }
 
   async applyForJob(candidateId: number, jobId: number) {
-    // Candidate exist check
-    const candidate = await this.prisma.candidate.findUnique({
-      where: { id: candidateId },
-    });
-    if (!candidate) throw new Error("Candidate not found");
+  // Convert to number safely
+  const candidateIdNum = Number(candidateId);
+  const jobIdNum = Number(jobId);
 
-    // Job exist check
-    const job = await this.prisma.job.findUnique({ where: { id: jobId } });
-    if (!job) throw new Error("Job not found");
-
-    // Candidate update: assign jobId + status
-    const updatedCandidate = await this.prisma.candidate.update({
-      where: { id: candidateId },
-      data: { jobId, status: "applied" },
-    });
-
-    return { success: true, data: updatedCandidate };
+  if (isNaN(candidateIdNum) || isNaN(jobIdNum)) {
+    throw new Error("Invalid candidateId or jobId");
   }
+
+  // Candidate exist check
+  const candidate = await this.prisma.candidate.findUnique({
+    where: { id: candidateIdNum },
+  });
+  if (!candidate) throw new Error("Candidate not found");
+
+  // Job exist check
+  const job = await this.prisma.job.findUnique({
+    where: { id: jobIdNum },
+  });
+  if (!job) throw new Error("Job not found");
+
+  // Update candidate
+  const updatedCandidate = await this.prisma.candidate.update({
+    where: { id: candidateIdNum },
+    data: { jobId: jobIdNum, status: "applied" },
+  });
+
+  return { success: true, data: updatedCandidate };
+}
+
+
+  // async applyForJob(candidateId: number, jobId: number) {
+  //   // Candidate exist check
+  //   const candidate = await this.prisma.candidate.findUnique({
+  //     where: { id: candidateId },
+  //   });
+  //   if (!candidate) throw new Error("Candidate not found");
+
+  //   // Job exist check
+  //   const job = await this.prisma.job.findUnique({ where: { id: jobId } });
+  //   if (!job) throw new Error("Job not found");
+
+  //   // Candidate update: assign jobId + status
+  //   const updatedCandidate = await this.prisma.candidate.update({
+  //     where: { id: candidateId },
+  //     data: { jobId, status: "applied" },
+  //   });
+
+  //   return { success: true, data: updatedCandidate };
+  // }
 }

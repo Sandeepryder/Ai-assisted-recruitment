@@ -85,17 +85,24 @@ let CandidateService = class CandidateService {
         return this.prisma.candidate.delete({ where: { id } });
     }
     async applyForJob(candidateId, jobId) {
+        const candidateIdNum = Number(candidateId);
+        const jobIdNum = Number(jobId);
+        if (isNaN(candidateIdNum) || isNaN(jobIdNum)) {
+            throw new Error("Invalid candidateId or jobId");
+        }
         const candidate = await this.prisma.candidate.findUnique({
-            where: { id: candidateId },
+            where: { id: candidateIdNum },
         });
         if (!candidate)
             throw new Error("Candidate not found");
-        const job = await this.prisma.job.findUnique({ where: { id: jobId } });
+        const job = await this.prisma.job.findUnique({
+            where: { id: jobIdNum },
+        });
         if (!job)
             throw new Error("Job not found");
         const updatedCandidate = await this.prisma.candidate.update({
-            where: { id: candidateId },
-            data: { jobId, status: "applied" },
+            where: { id: candidateIdNum },
+            data: { jobId: jobIdNum, status: "applied" },
         });
         return { success: true, data: updatedCandidate };
     }
