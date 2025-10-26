@@ -117,4 +117,22 @@ export declare class CandidateController {
         status: string;
         createdAt: Date;
     }>;
+    applyJob(body: {
+        candidateId: number;
+        jobId: number;
+    }): Promise<{
+        success: boolean;
+        data: {
+            id: number;
+            firstName: string;
+            lastName: string;
+            email: string;
+            phone: string;
+            jobId: number;
+            score: number;
+            scoreBreakdown: import("@prisma/client/runtime/library").JsonValue;
+            status: string;
+            createdAt: Date;
+        };
+    }>;
 }

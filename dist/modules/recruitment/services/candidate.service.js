@@ -67,14 +67,14 @@ let CandidateService = class CandidateService {
             where: { id: candidateId },
         });
         if (!candidate) {
-            throw new Error('Candidate not found');
+            throw new Error("Candidate not found");
         }
-        let status = '';
+        let status = "";
         if (candidate.score !== null) {
-            status = candidate.score >= 0.6 ? 'shortlisted' : 'rejected';
+            status = candidate.score >= 0.6 ? "shortlisted" : "rejected";
         }
         else {
-            status = 'pending';
+            status = "pending";
         }
         return this.prisma.candidate.update({
             where: { id: candidateId },
@@ -83,6 +83,21 @@ let CandidateService = class CandidateService {
     }
     async deleteCandidate(id) {
         return this.prisma.candidate.delete({ where: { id } });
+    }
+    async applyForJob(candidateId, jobId) {
+        const candidate = await this.prisma.candidate.findUnique({
+            where: { id: candidateId },
+        });
+        if (!candidate)
+            throw new Error("Candidate not found");
+        const job = await this.prisma.job.findUnique({ where: { id: jobId } });
+        if (!job)
+            throw new Error("Job not found");
+        const updatedCandidate = await this.prisma.candidate.update({
+            where: { id: candidateId },
+            data: { jobId, status: "applied" },
+        });
+        return { success: true, data: updatedCandidate };
     }
 };
 exports.CandidateService = CandidateService;

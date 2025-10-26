@@ -105,4 +105,19 @@ export declare class CandidateService {
         scoreBreakdown: import("@prisma/client/runtime/library").JsonValue;
         status: string;
     }>;
+    applyForJob(candidateId: number, jobId: number): Promise<{
+        success: boolean;
+        data: {
+            id: number;
+            createdAt: Date;
+            firstName: string;
+            lastName: string;
+            email: string;
+            phone: string;
+            jobId: number;
+            score: number;
+            scoreBreakdown: import("@prisma/client/runtime/library").JsonValue;
+            status: string;
+        };
+    }>;
 }

@@ -70,15 +70,15 @@ export class CandidateService {
     });
 
     if (!candidate) {
-      throw new Error('Candidate not found');
+      throw new Error("Candidate not found");
     }
 
     // Decide status based on finalScore
-    let status = '';
+    let status = "";
     if (candidate.score !== null) {
-      status = candidate.score >= 0.6 ? 'shortlisted' : 'rejected';
+      status = candidate.score >= 0.6 ? "shortlisted" : "rejected";
     } else {
-      status = 'pending'; // agar score nahi hai
+      status = "pending"; // agar score nahi hai
     }
 
     // Update candidate status
@@ -91,5 +91,25 @@ export class CandidateService {
   // Delete Candidate
   async deleteCandidate(id: number) {
     return this.prisma.candidate.delete({ where: { id } });
+  }
+
+  async applyForJob(candidateId: number, jobId: number) {
+    // Candidate exist check
+    const candidate = await this.prisma.candidate.findUnique({
+      where: { id: candidateId },
+    });
+    if (!candidate) throw new Error("Candidate not found");
+
+    // Job exist check
+    const job = await this.prisma.job.findUnique({ where: { id: jobId } });
+    if (!job) throw new Error("Job not found");
+
+    // Candidate update: assign jobId + status
+    const updatedCandidate = await this.prisma.candidate.update({
+      where: { id: candidateId },
+      data: { jobId, status: "applied" },
+    });
+
+    return { success: true, data: updatedCandidate };
   }
 }

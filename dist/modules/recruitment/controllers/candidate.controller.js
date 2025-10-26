@@ -37,6 +37,9 @@ let CandidateController = class CandidateController {
     async deleteCandidate(id) {
         return this.candidateService.deleteCandidate(Number(id));
     }
+    async applyJob(body) {
+        return this.candidateService.applyForJob(body.candidateId, body.jobId);
+    }
 };
 exports.CandidateController = CandidateController;
 __decorate([
@@ -68,8 +71,8 @@ __decorate([
     __metadata("design:returntype", Promise)
 ], CandidateController.prototype, "updateCandidate", null);
 __decorate([
-    (0, common_1.Put)(':id/update-status'),
-    __param(0, (0, common_1.Param)('id')),
+    (0, common_1.Put)(":id/update-status"),
+    __param(0, (0, common_1.Param)("id")),
     __metadata("design:type", Function),
     __metadata("design:paramtypes", [String]),
     __metadata("design:returntype", Promise)
@@ -81,6 +84,13 @@ __decorate([
     __metadata("design:paramtypes", [String]),
     __metadata("design:returntype", Promise)
 ], CandidateController.prototype, "deleteCandidate", null);
+__decorate([
+    (0, common_1.Post)("apply"),
+    __param(0, (0, common_1.Body)()),
+    __metadata("design:type", Function),
+    __metadata("design:paramtypes", [Object]),
+    __metadata("design:returntype", Promise)
+], CandidateController.prototype, "applyJob", null);
 exports.CandidateController = CandidateController = __decorate([
     (0, common_1.Controller)("candidate"),
     __metadata("design:paramtypes", [candidate_service_1.CandidateService])
