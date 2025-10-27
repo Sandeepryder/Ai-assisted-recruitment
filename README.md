@@ -30,4 +30,4 @@ npx prisma migrate reset
 npx prisma migrate dev --name recruitment_init_with_password
 npx prisma generate
 npx prisma studio
-
+npm run start:dev
