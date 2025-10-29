@@ -28,8 +28,10 @@ cd ai-assisted-recruitment-backend
 # for prisma/
 
 npx prisma migrate dev --name init       # this is use for run model in database !!
+npx prisma migrate reset                # this is use for reset your database !!
 
-npx prisma migrate reset
+
+
 npx prisma migrate dev --name recruitment_init_with_password
 npx prisma generate
 npx prisma studio
